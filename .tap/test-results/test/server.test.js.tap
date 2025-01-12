@@ -1,0 +1,105 @@
+TAP version 14
+Received signup request: {
+  name: [32m'Clark Kent'[39m,
+  email: [32m'clark@superman.com'[39m,
+  password: [32m'Krypt()n8'[39m,
+  preferences: [ [32m'movies'[39m, [32m'comics'[39m ]
+}
+Signup Response: { message: [32m'Signup successful'[39m }
+# Subtest: POST /users/signup
+    ok 1 - Signup should return status 200
+    1..1
+ok 1 - POST /users/signup # time=19.824ms
+
+Received signup request: { name: [32m'Clark Kent'[39m, password: [32m'Krypt()n8'[39m }
+Signup Missing Email Response: { error: [32m'Email, password, and name are required'[39m }
+# Subtest: POST /users/signup with missing email
+    ok 1 - Should return status 400 for missing email
+    1..1
+ok 2 - POST /users/signup with missing email # time=3.254ms
+
+Received login request: { email: [32m'clark@superman.com'[39m, password: [32m'Krypt()n8'[39m }
+Login Response: { token: [32m'mock-token'[39m }
+# Subtest: POST /users/login
+    ok 1 - Login should return status 200
+    ok 2 - specified property should be defined own property
+    1..2
+ok 3 - POST /users/login # time=3.624ms
+
+Received login request: { email: [32m'clark@superman.com'[39m, password: [32m'wrongpassword'[39m }
+Login Wrong Password Response: { error: [32m'Invalid email or password'[39m }
+# Subtest: POST /users/login with wrong password
+    ok 1 - Login with wrong password should return 401
+    1..1
+ok 4 - POST /users/login with wrong password # time=2.347ms
+
+Received preferences request: {
+  host: [32m'127.0.0.1:63321'[39m,
+  [32m'accept-encoding'[39m: [32m'gzip, deflate'[39m,
+  authorization: [32m'Bearer mock-token'[39m,
+  connection: [32m'close'[39m
+}
+Preferences Response: { preferences: [ [32m'movies'[39m, [32m'comics'[39m ] }
+# Subtest: GET /users/preferences
+    ok 1 - Preferences should return status 200
+    ok 2 - specified property should be defined own property
+    ok 3 - should be equivalent
+    1..3
+ok 5 - GET /users/preferences # time=3.587ms
+
+Received preferences request: {
+  host: [32m'127.0.0.1:63323'[39m,
+  [32m'accept-encoding'[39m: [32m'gzip, deflate'[39m,
+  connection: [32m'close'[39m
+}
+Preferences Without Token Response: { error: [32m'Unauthorized'[39m }
+# Subtest: GET /users/preferences without token
+    ok 1 - Preferences without token should return 401
+    1..1
+ok 6 - GET /users/preferences without token # time=1.687ms
+
+Received update preferences request: { preferences: [ [32m'movies'[39m, [32m'comics'[39m, [32m'games'[39m ] }
+Update Preferences Response: { message: [32m'Preferences updated'[39m }
+# Subtest: PUT /users/preferences
+    ok 1 - Update preferences should return status 200
+    1..1
+ok 7 - PUT /users/preferences # time=3.354ms
+
+Received preferences request: {
+  host: [32m'127.0.0.1:63327'[39m,
+  [32m'accept-encoding'[39m: [32m'gzip, deflate'[39m,
+  authorization: [32m'Bearer mock-token'[39m,
+  connection: [32m'close'[39m
+}
+Check Preferences Response: { preferences: [ [32m'movies'[39m, [32m'comics'[39m, [32m'games'[39m ] }
+# Subtest: Check PUT /users/preferences
+    ok 1 - Check preferences should return status 200
+    ok 2 - should be equivalent
+    1..2
+ok 8 - Check PUT /users/preferences # time=2.154ms
+
+Received news request: {
+  host: [32m'127.0.0.1:63329'[39m,
+  [32m'accept-encoding'[39m: [32m'gzip, deflate'[39m,
+  authorization: [32m'Bearer mock-token'[39m,
+  connection: [32m'close'[39m
+}
+News Response: { news: [ [32m'Superman news'[39m, [32m'Batman news'[39m ] }
+# Subtest: GET /news
+    ok 1 - News should return status 200
+    ok 2 - specified property should be defined own property
+    1..2
+ok 9 - GET /news # time=3.551ms
+
+Received news request: {
+  host: [32m'127.0.0.1:63331'[39m,
+  [32m'accept-encoding'[39m: [32m'gzip, deflate'[39m,
+  connection: [32m'close'[39m
+}
+News Without Token Response: { error: [32m'Unauthorized'[39m }
+# Subtest: GET /news without token
+    ok 1 - News without token should return 401
+    1..1
+ok 10 - GET /news without token # time=2.513ms
+
+1..10
